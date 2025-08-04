@@ -1,0 +1,107 @@
+<% layout("layouts/boilerplate")%>
+<div class="row">
+    <div class="col-8 offset-2">
+<h3>List Details</h3>
+
+<div class="card col-10" >
+    <img src="<%=list.image.url%>" class="card-img-top show-img" alt="...">
+    <div class="card-body">
+      <p class="card-text"> <b><%= list.title %></b> </p>
+      <br> 
+      <%= list.description %>
+      <br>
+      &#8360; <%= list.price ? list.price.toLocaleString("en-pk") : "N/A" %>
+      <br>
+      <%= list.location %>
+      <br>
+      <%= list.country %>
+
+    </div>
+  </div>
+
+  <!--  <p>Title: <%= list.title %></p>
+    <p>Description: <%= list.description %></p>
+    <p>Price: &#8360; <%= list.price ? list.price.toLocaleString("en-pk") : "N/A" %></p>
+    <p>Location: <%= list.location %></p>
+    <p>Country: <%= list.country %></p> -->
+</div>
+</div>
+</div>
+<div class="btns mb-5">
+<form method="post" action="/listing/edit/<%= list._id %>"> 
+  <button class="btn btn-dark add-btn ">Edit</button>
+</form>
+
+<form method="post" action="/listing/<%= list._id %>?_method=DELETE">
+   <button class="btn btn-dark offset-2  ">Delete</button>
+</form>
+</div>
+
+<div class="row mt-3">
+<div class="col-8 offset-2">
+    <!-- <form action="/listing/<%= list._id %>/review" method="post" novalidate class="needs-vallidation" >
+           <h3 class="bg-success-subtle p-3 rounded-3">Leave a Comment</h3>
+            <br>
+            <div class="mt-3">
+              <label for="rating" class="form-label">Rating</label>
+              <input type="range" name="Review[rating]" id="rating" min="1" max="5" class="form-control form-range" required>
+            </div>
+            
+            <div class="mt-3">
+              <label for="comment" class="form-label">Comment</label>
+              <textarea required class="form-control" name="Review[comment]" id="comment" cols="10" rows="5" placeholder="Enter the review here!"></textarea>
+             
+            </div>
+            
+           
+            <div class=" offset-5 mt-3 mb-3">
+              <button class="btn btn-outline-dark">Submit</button>
+            </div>
+
+
+      </form> -->  
+
+      <form action="/listing/<%= list._id %>/review" method="post" novalidate class="needs-validation">
+        <div  class="mt-3">
+        <label for="rating" class="form-label">Rating</label>
+        <input type="range" name="Review[rating]" class="form-control" min="1" max="5" required>
+
+    </div>
+    <div class="mt-3" >
+        <label for="comment"  class="form-label">Comment</label>
+        <textarea name="Review[comment]" id="comment" cols="10" rows="5"
+         placeholder="Write Comment Here" required class="form-control"
+        ></textarea>
+        <div class="invalid-feedback">
+          Please enter a valid description.
+          </div>
+    </div>
+    <br>
+    <div class=" offset-5 mt-3 mb-3">
+              <button class="btn btn-outline-dark">Submit</button>
+            </div>
+    </form>
+      
+    <hr>
+    <h2>All Reviews</h2>
+  
+    <div class="row">
+    <% for(review of list.reviews)  { %>
+      <div class="col-5 ms-3 review-card ">
+          <p> <%=review.comment%></p>
+          <p><%=review.rating%></p>
+          <form action="/listing/<%=list._id%>/review/<%=review._id%>?_method=DELETE" method="post" class="mb-2">
+            <button class="btn-dark btn-sm btn">Delete</button>
+          </form>
+      </div>
+      <%  }%>
+      </div>
+    
+    <hr>
+    
+</div>
+</div>
+
+
+
+
