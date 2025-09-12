@@ -4,6 +4,7 @@ const router=express.Router();
 const wrapAsync=require("../utils/wrapAsync.js");
 const MyError= require("../utils/ExpressError.js");
 const listing= require('../models/Listing');
+const {isloggedIn}= require("../middleware.js");
 //const listing_schema=require("listing_schema");
 
 router.get("/", wrapAsync(async(req,res)=>{
@@ -20,7 +21,7 @@ res.render("./listings/index",{alllisting});
 
 // new listing
 
-router.get("/new",(req,res)=>{
+router.get("/new",isloggedIn,(req,res)=>{
     res.render("./listings/new");
 })
 
@@ -44,7 +45,8 @@ let newlisting=req.body;
         price:Price,
         location:Location,
         country:Country
-    })
+    });
+    req.flash("success", "New Listing Added!");
     res.redirect("/listing");
 })
 )
@@ -54,6 +56,11 @@ router.get("/:id",wrapAsync(async(req,res)=>{
     let {id}=req.params;
     //res.send(id);
   let list = await listing.findById(id).populate("reviews");
+  if(!list)
+  {
+    req.flash("error","Requested listing is not available");
+    res.redirect("/listing");
+  }
   //console.log(list.image);
   //res.send(list);
   console.log(list.reviews);
@@ -62,15 +69,17 @@ router.get("/:id",wrapAsync(async(req,res)=>{
 }));
 
 
-router.post("/edit/:id",wrapAsync(async(req,res)=>{
+router.get("/:id/edit",isloggedIn,wrapAsync(async(req,res)=>{
     let {id}=req.params;
     let list=await listing.findById(id);
-    console.log("Edit List is:")
-    console.log(list);
-   res.render("./listings/edit",{list});
+    if(!list) {
+        req.flash("error","Listing not found");
+        return res.redirect("/listing");
+    }
+    res.render("./listings/edit",{list});
 }));
 
-router.post("/edit/data/:id",wrapAsync(async(req,res)=>{
+router.put("/:id",isloggedIn,wrapAsync(async(req,res)=>{
     let {id}=req.params;
     let{ Title,Description,Price,Location,Country}=req.body;
     let list= await listing.findByIdAndUpdate(id,{
@@ -81,10 +90,10 @@ router.post("/edit/data/:id",wrapAsync(async(req,res)=>{
         country:Country
     },{
         new:true
-    })
+    });
     console.log("This is updated list");
     console.log(list.description);
-
+    
     res.redirect("/listing");
     
 
@@ -94,7 +103,7 @@ router.post("/edit/data/:id",wrapAsync(async(req,res)=>{
 
 /// delete route
 
-router.delete("/:id",wrapAsync(async(req,res)=>{
+router.delete("/:id",isloggedIn,wrapAsync(async(req,res)=>{
     let {id}=req.params; 
    let list = await listing.findByIdAndDelete(id);
 //    console.log('after delete',list);

@@ -28,9 +28,7 @@
 </div>
 </div>
 <div class="btns mb-5">
-<form method="post" action="/listing/edit/<%= list._id %>"> 
-  <button class="btn btn-dark add-btn ">Edit</button>
-</form>
+<a href="/listing/<%= list._id %>/edit" class="btn btn-dark add-btn">Edit</a>
 
 <form method="post" action="/listing/<%= list._id %>?_method=DELETE">
    <button class="btn btn-dark offset-2  ">Delete</button>

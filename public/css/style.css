@@ -3,9 +3,12 @@ body{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #f8f9fa;
 }
 .container{
     flex: 1;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
 }
 .navbar{
     background-color: white;
@@ -108,4 +111,174 @@ width: 100%;
     align-items: center !important;
     position: relative;
     right: 150px;
+}
+
+/* ---- Flash container ---- */
+.flash-stack {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-20%);
+  z-index: 9999;
+  display: grid;
+  gap: 10px;
+  width: min(92vw, 520px);
+  pointer-events: none; /* clicks pass through except on the cards */
+}
+
+/* ---- Flash card ---- */
+.flash {
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.12),
+    0 2px 8px rgba(0,0,0,.08);
+  color: #083a2b;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: saturate(1.4) blur(4px);
+}
+
+/* Success theme: soft green glass with gradient */
+.flash-success {
+  background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+  border: 1px solid #a7f3d0;
+}
+
+/* error flash  */
+.error-success {
+  background: linear-gradient(135deg, #cc0913 0%, #dd0909 100%);
+  border: 1px solid #f8f5f5;
+}
+
+/* Icon & text */
+.flash-icon {
+  display: inline-grid;
+  place-items: center;
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+}
+
+.flash-text {
+  font-size: 0.95rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+
+/* Close button */
+.flash-close {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  padding: 2px 6px;
+  color: rgba(0,0,0,.45);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background .15s ease, color .15s ease, transform .1s ease;
+}
+.flash-close:hover { background: rgba(0,0,0,.06); color: rgba(0,0,0,.7); }
+.flash-close:active { transform: scale(.96); }
+
+/* Top progress bar (auto-dismiss indicator) */
+.flash-progress {
+  position: absolute;
+  left: 0; top: 0;
+  height: 3px;
+  width: 100%;
+  background: rgba(16,185,129,.25);
+  transform-origin: left;
+  animation: flash-life 4s linear forwards;
+}
+@keyframes flash-life {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+
+/* Drop-in bounce animation */
+.drop-bounce {
+  animation: dropIn 650ms cubic-bezier(.22,1.1,.3,1) both;
+}
+@keyframes dropIn {
+  0%   { opacity: 0; transform: translate(-50%, -24px) scale(.98); }
+  55%  { opacity: 1; transform: translate(-50%, 6px)  scale(1.01); }
+  75%  { transform: translate(-50%, -2px) scale(.999); }
+  100% { transform: translate(-50%, 0)    scale(1); }
+}
+
+/* Stagger multiple messages slightly */
+.flash-stack .flash:nth-child(2) { animation-delay: .05s; }
+.flash-stack .flash:nth-child(3) { animation-delay: .1s; }
+.flash-stack .flash:nth-child(4) { animation-delay: .15s; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .drop-bounce { animation: none; }
+  .flash-progress { display: none; }
+}
+
+/* Listing Card Styles */
+.listing-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.listing-image {
+    transition: transform 0.5s ease;
+}
+
+.listing-card:hover .listing-image {
+    transform: scale(1.05);
+}
+
+.listing-link {
+    color: inherit;
+}
+
+.listing-link:hover {
+    text-decoration: none;
+}
+
+/* Text Styles */
+.text-primary {
+    color: #2563eb !important;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Price Tag */
+.fw-bold.text-primary {
+    font-size: 1.2rem;
+}
+
+/* Location Icon */
+.fa-map-marker-alt {
+    color: #dc2626;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* A darker shade of blue for hover */
+    border-color: #0056b3;
+    color: #fff; /* Keep text white */
 }
