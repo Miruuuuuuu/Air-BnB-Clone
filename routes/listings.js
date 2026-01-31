@@ -11,7 +11,7 @@ router.get("/", wrapAsync(async(req,res)=>{
 let alllisting= await listing.find();
 //console.log(alllisting);
 
-res.render("./listings/index",{alllisting});
+res.render("listings/index",{alllisting});
 //console.log(alllisting.image.url);
 // alllisting.forEach(item => {
 //     console.log(item.image.url); // Access the URL here
@@ -22,7 +22,7 @@ res.render("./listings/index",{alllisting});
 // new listing
 
 router.get("/new",isloggedIn,(req,res)=>{
-    res.render("./listings/new");
+    res.render("listings/new");
 })
 
 // new listing in db
@@ -63,8 +63,8 @@ router.get("/:id",wrapAsync(async(req,res)=>{
   }
   //console.log(list.image);
   //res.send(list);
-  console.log(list.reviews);
-  res.render("./listings/list",{list});
+    console.log(list.reviews);
+    res.render("listings/list",{list});
 
 }));
 
@@ -76,7 +76,7 @@ router.get("/:id/edit",isloggedIn,wrapAsync(async(req,res)=>{
         req.flash("error","Listing not found");
         return res.redirect("/listing");
     }
-    res.render("./listings/edit",{list});
+    res.render("listings/edit",{list});
 }));
 
 router.put("/:id",isloggedIn,wrapAsync(async(req,res)=>{

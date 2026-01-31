@@ -2,15 +2,15 @@
 
 <div class="container"></div>
     <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold text-primary mb-2">Featured Listings</h1>
+        <h1 class="display-4 fw-bold text-primary mb-2 text-danger">Featured Listings</h1>
         <p class="text-muted">Discover amazing places to stay around the world</p>
     </div>
     
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
         <% for(let list of alllisting){ %>
         <div class="col">
-            <a href="/listing/<%= list._id%>" class="listing-link text-decoration-none">
-                <div class="card shadow-sm listing-card h-100">
+            <a href="/listing/<%= list._id%>" class="listing-link text-decoration-none ">
+                <div class="card shadow-sm listing-card h-100 p-2">
                     <div class="overflow-hidden" style="height: 20rem;">
                         <img src="<%=list.image.url%>" 
                              class="card-img-top listing-image" 

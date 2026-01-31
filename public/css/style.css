@@ -16,7 +16,9 @@ body{
 }
 .nav-link{
     color: black !important;
+    
 }
+
 .fa-compass{
     color: red;
     font-size: 2rem;

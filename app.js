@@ -18,6 +18,7 @@ const init_data=require('./init/data');
 const listingRoute=require("./routes/listings");
 const reviewRoute=  require("./routes/reviews.js");
 const userRoute=  require("./routes/users.js");
+const aboutRoute= require("./routes/about.js");
 const { date } = require('joi');
 
 app.use(methodOverride('_method'));
@@ -30,6 +31,13 @@ const ejsmate=require('ejs-mate');
 app.engine("ejs",ejsmate);
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+async function main()
+{
+     mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
+}
+
+
 main().then(
     (res)=>{
         console.log("Db conneected");
@@ -40,10 +48,6 @@ main().then(
     }
 )
 
-async function main()
-{
-     mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
-}
 
 
 
@@ -91,11 +95,11 @@ app.use((req,res,next)=>{
 
 app.get("/testUser",async(req,res)=>{
     const fakeUser= new User({
-        email:"abc@gmail.com",
-        username:"fakeUser"
+        email:"abcd@gmail.com",
+        username:"fakeUser2"
     });
    const registeredUser= await User.register(fakeUser,"password");
-     res.send(registeredUser);
+     res.send(`A Dummy User has been created :\n ${registeredUser}`);
 })
 
 
@@ -104,7 +108,7 @@ app.get("/testUser",async(req,res)=>{
 app.get("/testlisting", wrapAsync(async(req,res)=>{
     let list= await listing.insertMany(
         {
-            title:"Listingg 1",
+            title:"Listingg 2",
             description:"This is the description of listing 1",
             price:100,
             location: "Lahore",
@@ -115,9 +119,11 @@ app.get("/testlisting", wrapAsync(async(req,res)=>{
     
     // let list = listing.insertMany(init_data.data).catch((err)=>{res.send(err)});
 
-    // res.send("test succesful");
+    res.send(`test succesful /n${list}`);
 })
 )
+
+app.use("/about",aboutRoute)
 
 //listing router
 app.use("/listing",listingRoute);
